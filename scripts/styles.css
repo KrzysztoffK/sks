@@ -1,0 +1,124 @@
+html, body {
+    font-family: Arial;
+    overflow: hidden;
+    height: 100vh;
+}
+
+/** Styling of the main (semantically defined) parts of the website **/
+header, nav, main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+nav button {
+    width: 10vw;
+    height: 3vw;
+    margin-left: 1vw;
+    margin-right: 1vw;
+
+    font-size: medium;
+}
+
+main {
+    width: 100vw;
+    margin-top: 1vw;
+}
+
+/** Styling of the read & edit and add divs **/
+#readEdit {
+    overflow-y: auto;
+    max-height: 80vh;
+
+    position: relative;
+}
+
+div#add{
+    display: none;
+}
+/** Hide the ugly scrollbar in the players table div **/
+#readEdit::-webkit-scrollbar{
+    display: none;
+}
+#readEdit{
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/** Styling of the scrollable players table **/
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    margin-bottom: 0.5vh;
+
+    /* Cursors style when hovering */
+    cursor: cell;
+}
+
+th {
+    padding: 1vw;
+}
+
+td {
+    padding: 0.5vw;
+}
+
+/** Style for hidden input holding "id" variable to be for queries **/
+input[type="hidden"]{
+    margin: 0;
+    padding: 0;
+}
+
+form{
+    margin: 0;
+}
+
+/** Styles for edit popup window **/
+div#readEdit table#users {
+    display: block;
+    border: none;
+
+}
+
+#editPopup {
+    border: solid 1px black;
+    display: none;
+
+    padding: 1vw;
+    width: 30vw;
+    height: 40vh;
+
+    background: #FFF;
+    z-index: 20;
+
+    /* Centering within the parent */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    text-align: center;
+
+}
+
+
+#editPopupOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 10;
+    display: none;
+}
+
+form.update {
+    display: inline-block;
+}
+
+#editPopup button {
+    height: 3.5vh;
+    width: 8vw;
+    margin: 1vh;
+}
