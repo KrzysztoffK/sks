@@ -1,0 +1,15 @@
+CREATE USER 'test'
+to samo co CREATE USER 'test'@'%'
+
+CREATE USER 'test'@'localhost'
+
+IDENTIFIED BY 'secret'
+
+CREATE USER 'editWorker'@'localhost';
+GRANT INSERT, UPDATE, DELETE ON sks.* TO 'editWorker'@'localhost';
+
+
+CREATE USER 'readWorker'@'localhost';
+GRANT SELECT ON sks.* TO 'readWorker'@'localhost';
+
+.* - do wszystkich tabel

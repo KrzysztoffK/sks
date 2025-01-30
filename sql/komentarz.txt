@@ -1,0 +1,87 @@
+ładowanie danych przez php do glownej strony
+
+na event 'click' otwieranie popupa BEZ przeladowania strony
+przekazanie id do wewnatrz popupa
+
+wewnatrz popupa zaladowanie danych z bazy przez php i wstawienie do okienek z edycja
+
+edycja, na nacisniecie guzika wyslanie danych do bazy i aktualizacja tabeli 
+
+
+jezeli chodzi o problemy
+zastosowanie ajax, jednoczesne operacje na bazie przez kilku uzytkownikow
+odswiezanie na submicie, odswiezanie na eventach, co okreslony czas
+
+refreshowanie strony przez submit formularza
+
+polaczenia persistent, wykorzystanie przy komunikacji szyfrowanej
+
+ display: none;
+    position: fixed;
+    padding: 1vw;
+    width: 10vw;
+    left: 50%;
+    margin-left: -150px;
+    height: 180px;
+    top: 50%;
+    margin-top: -100px;
+    background: #FFF;
+    z-index: 20;
+
+.popup {
+    border: solid 1px black;
+    display: none;
+    position: fixed;
+
+    padding: 1vw;
+    width: 30vw;
+    height: 40vh;
+    left: 50%;
+    margin-left: -150px;
+    
+    top: 50%;
+    margin-top: -100px;
+    background: #FFF;
+    z-index: 20;
+}
+
+
+#editPopup:after {
+    position: fixed;
+    content: "";
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0,0,0,0.2);
+    z-index: -2;
+}
+  
+#editPopup:before {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #FFF;
+    z-index: -1;
+}
+
+.popup {
+    border: solid 1px black;
+    display: none;
+
+    padding: 1vw;
+    width: 30vw;
+    height: 40vh;
+
+    background: #FFF;
+    z-index: 20;
+
+    /* Centering within the parent */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
