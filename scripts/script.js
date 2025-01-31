@@ -20,7 +20,28 @@ editForms.forEach(function (form) {
 
         //Perform appropriate action based on the submitter value
         if (submitter.value === "delete"){
-            //Handle deletion logic
+            //Extract the id value from the hidden input in form
+            const id = formData.get("id");
+
+            //Create new AJAX request
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "./scripts/form_handlers/delete.php", true) //EditFormHandler will return the query in JSON format
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            //Handle the AJAX response
+            xhr.onload() = function(){
+                if (xhr.status === 200){
+                    try {
+                        
+                    } catch (error) {
+                        console.error("Error parsing JSON response:", error);
+                    }
+                } else {
+                    console.error("Error with request:", xhr.status, xhr.statusText);
+                }
+            };
+            xhr.send(`id=${encodeURIComponent(id)}`);
+
         } else if (submitter.value === "edit"){
             //Extract the id value from the hidden input in form
             const id = formData.get("id"); 

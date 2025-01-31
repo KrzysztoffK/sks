@@ -12,7 +12,7 @@ class Connection {
     private $username;
     private $connection;
 
-    public function __construct($username){
+    public function __construct(String $username){
         $this->username = $username;
         $dsn = "mysql:host=" . self::$host . ";dbname=" . self::$database . ";charset=" . self::$charset;
         try {
