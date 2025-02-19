@@ -6,8 +6,7 @@ ini_set('display_errors', 1);
 
 $response = ["success" => false];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
-    $id = intval($_POST['id']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $imie = trim($_POST['imie'] ?? '');
     $nazwisko = trim($_POST['nazwisko'] ?? '');
     $klasa = intval($_POST['klasa'] ?? 0);
@@ -24,8 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
     try {
         $connection = new Connection("editWorker");
 
-        $stmt = $connection->getPDO()->prepare("UPDATE `zawodnicy` SET imie = :imie, nazwisko = :nazwisko, klasa = :klasa, rokurodzenia = :rok_urodzenia, wzrost = :wzrost WHERE id = :id");
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt = $connection->getPDO()->prepare("INSERT INTO `zawodnicy` (imie, nazwisko, klasa, rokurodzenia, wzrost) VALUES (:imie, :nazwisko, :klasa, :rok_urodzenia, :wzrost)");
         $stmt->bindParam(":imie", $imie, PDO::PARAM_STR);
         $stmt->bindParam(":nazwisko", $nazwisko, PDO::PARAM_STR);
         $stmt->bindParam(":klasa", $klasa, PDO::PARAM_INT);
@@ -34,9 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
 
         if ($stmt->execute()) {
             $response["success"] = true;
-            $response["message"] = "User updated successfully.";
+            $response["message"] = "User added successfully.";
+            $response["new_id"] = $connection->getPDO()->lastInsertId(); // Return the new user's ID
         } else {
-            $response["message"] = "Database error: Update failed.";
+            $response["message"] = "Database error: Insert failed.";
         }
 
         $connection->close();

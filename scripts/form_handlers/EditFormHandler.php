@@ -19,5 +19,6 @@
         }
 
         $connection_read -> close();
-    } 
+    }
+    exit; 
 ?>
