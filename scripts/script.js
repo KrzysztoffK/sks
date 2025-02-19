@@ -17,34 +17,44 @@ editForms.forEach(function (form) {
         const submitter = e.submitter;
         //Create a Form class instance to get the data from the form
         const formData = new FormData(form);
-
+        //Get the id field from the form
+        const id = formData.get("id"); 
         //Perform appropriate action based on the submitter value
         if (submitter.value === "delete"){
-            //Extract the id value from the hidden input in form
-            const id = formData.get("id");
-
-            //Create new AJAX request
+            //Handle deletion logic
             const xhr = new XMLHttpRequest();
-            xhr.open("POST", "./scripts/form_handlers/delete.php", true) //EditFormHandler will return the query in JSON format
+            xhr.open("POST", "./scripts/form_handlers/DeleteFormHandler.php") //EditFormHandler will return the query in JSON format
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-            //Handle the AJAX response
-            xhr.onload() = function(){
-                if (xhr.status === 200){
-                    try {
-                        
-                    } catch (error) {
-                        console.error("Error parsing JSON response:", error);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        try {
+                            const responseText = xhr.responseText.trim(); // Remove any whitespace
+                            if (!responseText) {
+                                throw new Error("Empty response from server");
+                            }
+        
+                            const response = JSON.parse(responseText); // Parse JSON
+                            if (response.success) {
+                                window.location.reload();
+                            } else {
+                                alert("Error: " + response.message);
+                            }
+                        } catch (error) {
+                            alert("Invalid server response: " + error.message);
+                            console.error("Server response:", xhr.responseText); // Debugging
+                        }
+                    } else {
+                        alert("Request failed with status: " + xhr.status);
                     }
-                } else {
-                    console.error("Error with request:", xhr.status, xhr.statusText);
                 }
             };
             xhr.send(`id=${encodeURIComponent(id)}`);
-
+            //window.location.reload();
         } else if (submitter.value === "edit"){
             //Extract the id value from the hidden input in form
-            const id = formData.get("id"); 
+            //const id = formData.get("id"); 
 
             //Create new AJAX request
             const xhr = new XMLHttpRequest();
@@ -60,7 +70,7 @@ editForms.forEach(function (form) {
                         divEditPopup.innerHTML = `
                             <h3>Edycja zawodnika</h3>
                             <p>ID: ${data.id}</p>
-                            <form method='POST' class='update'>
+                            <form method='POST' class='update' id='user'>
                             <label for="imie">Imię</label><br />
                             <input type="text" id="imie" name="imie" value="${data.imie}"><br />
                             <label for="nazwisko">Nazwisko</label><br />
@@ -75,6 +85,38 @@ editForms.forEach(function (form) {
                             </form>
                             <br /><button id="closePopup">Anuluj</button>
                         `;
+                        
+                        const userForm = document.querySelector("form#user");
+                        userForm.addEventListener('submit', function(e){
+                            e.preventDefault();
+                            const formData = new FormData(this);
+                            formData.append("id", id);
+
+                            const xhr = new XMLHttpRequest();
+                            xhr.open("POST", "./scripts/form_handlers/UpdateFormHandler.php", true);
+                        
+                            xhr.onreadystatechange = function () {
+                                if (xhr.readyState === 4) {
+                                    if (xhr.status === 200) {
+                                        try {
+                                            const response = JSON.parse(xhr.responseText.trim());
+                                            if (response.success) {
+                                                location.reload(); // Reload the page to reflect changes
+                                            } else {
+                                                alert("Error: " + response.message);
+                                            }
+                                        } catch (error) {
+                                            alert("Invalid server response.");
+                                            console.error("Server response:", xhr.responseText);
+                                        }
+                                    } else {
+                                        alert("Request failed with status: " + xhr.status);
+                                    }
+                                }
+                            };
+                        
+                            xhr.send(formData);
+                        })
 
                         const buttonClosePopup = document.querySelector("button#closePopup");
                         buttonClosePopup.addEventListener('click', function(e) {
@@ -97,6 +139,40 @@ editForms.forEach(function (form) {
         }
     });
 });
+
+const addForm = document.querySelector("form#add");
+
+addForm.addEventListener('submit', function(e){
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "./scripts/form_handlers/AddFormHandler.php", true);
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                try {
+                    const response = JSON.parse(xhr.responseText.trim());
+                    if (response.success) {
+                        alert("User added successfully!");
+                        location.reload(); // Reload the page to reflect changes
+                    } else {
+                        alert("Error: " + response.message);
+                    }
+                } catch (error) {
+                    alert("Invalid server response.");
+                    console.error("Server response:", xhr.responseText);
+                }
+            } else {
+                alert("Request failed with status: " + xhr.status);
+            }
+        }
+    };
+
+    xhr.send(formData);
+})
 
 //Event listeners for the main content buttons - switch between read/edit and add divs
 readEditButton.addEventListener('click', function(){

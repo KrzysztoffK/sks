@@ -35,7 +35,11 @@ main {
 
 div#add{
     display: none;
+    text-align: center;
+
 }
+
+
 /** Hide the ugly scrollbar in the players table div **/
 #readEdit::-webkit-scrollbar{
     display: none;
@@ -113,11 +117,17 @@ div#readEdit table#users {
     display: none;
 }
 
-form.update {
+form.update, form#add {
     display: inline-block;
 }
 
 #editPopup button {
+    height: 3.5vh;
+    width: 8vw;
+    margin: 1vh;
+}
+
+#add button {
     height: 3.5vh;
     width: 8vw;
     margin: 1vh;
