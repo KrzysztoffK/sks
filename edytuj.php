@@ -59,7 +59,22 @@
                 <div id="editPopupOverlay"></div>
                 <div id="editPopup"></div>
             </div>
-            <div id="add"></div>
+            <div id="add">
+                            <h3>Dodawanie zawodnika</h3>
+                            <form method='POST' id='add'>
+                            <label for="imie">Imię</label><br />
+                            <input type="text" id="imie" name="imie"><br />
+                            <label for="nazwisko">Nazwisko</label><br />
+                            <input type="text" id="nazwisko" name="nazwisko"><br />
+                            <label for="klasa">Klasa</label><br />
+                            <input type="number" id="klasa" name="klasa"><br />
+                            <label for="rok_urodzenia">Rok urodzenia</label><br />
+                            <input type="number" id="rok_urodzenia" name="rok_urodzenia"><br />
+                            <label for="wzrost">Wzrost</label><br />
+                            <input type="number" id="wzrost" name="wzrost"><br />
+                            <button type='submit' name='update' value='Zapisz'>Zapisz</button>
+                            </form>
+            </div>
         </main>
         <?php 
             $connection_read -> close();
